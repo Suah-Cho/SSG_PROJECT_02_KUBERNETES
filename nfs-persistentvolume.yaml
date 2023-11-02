@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-persistentvolume
+spec:
+  capacity:
+    storage: 1Gi          ## 볼륨의 크기 1G
+  accessModes:
+  - ReadWriteOnce         ## 하나의 파드(또는 인스턴스)에 의해서만 마운트될 수 있음
+  nfs:
+    path: /
+    server: {CLUSTER-IP}

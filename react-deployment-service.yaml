@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react
+spec:
+  selector:
+    matchLabels:
+      app: react
+  template:
+    metadata:
+      labels:
+        app: react
+      name: react
+    spec:
+      containers:
+      - name: react-container
+        image: docker.io/suahcho/react_app:5.6
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: react
+spec:
+  type: LoadBalancer
+  ports:
+  - name: react
+    port: 80
+    targetPort: 80
+  selector:
+    app: react

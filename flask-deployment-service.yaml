@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+      name: flask
+    spec:
+      containers:
+      - name: flask-container
+        image: docker.io/suahcho/flask_app:4.7
+        ports:
+        - containerPort: 5000
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask
+spec:
+  type: LoadBalancer
+  ports:
+  - name: flask
+    port: 5000
+    targetPort: 5000
+  selector:
+    app: flask
